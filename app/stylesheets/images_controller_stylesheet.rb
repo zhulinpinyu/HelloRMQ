@@ -22,4 +22,21 @@ class ImagesControllerStylesheet < ApplicationStylesheet
       #cl.sectionInset = [0,0,0,0]
     end
   end
+
+  def overlay(st)
+    st.frame = :full
+    st.background_color = color.from_rgba(0,0,0,0.7)
+  end
+
+  def overlay_image(st)
+    st.frame = :full
+    st.view.contentMode = UIViewContentModeScaleAspectFit
+  end
+
+  def overlay_tips(st)
+    st.frame = {t: 20, w: app_width, h: 18}
+    st.text = "Tap to close."
+    st.text_alignment = :center
+    st.color = color.white
+  end
 end

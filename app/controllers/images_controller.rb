@@ -4,7 +4,6 @@ class ImagesController < UICollectionViewController
   IMAGES_CELL_ID = "ImagesCell"
 
   def self.new(args = {})
-    # Set layout
     layout = UICollectionViewFlowLayout.alloc.init
     self.alloc.initWithCollectionViewLayout(layout)
   end
@@ -35,15 +34,24 @@ class ImagesController < UICollectionViewController
   def collectionView(view, cellForItemAtIndexPath: index_path)
     view.dequeueReusableCellWithReuseIdentifier(IMAGES_CELL_ID, forIndexPath: index_path).tap do |cell|
       rmq.build(cell) unless cell.reused
-
-      # Update cell's data here
       cell.update(@images[index_path.row])
     end
   end
 
   def collectionView(view, didSelectItemAtIndexPath: index_path)
     cell = view.cellForItemAtIndexPath(index_path)
+    image_popup(@images[index_path.row])
     puts "Selected at section: #{index_path.section}, row: #{index_path.row}"
+  end
+
+  def image_popup(image_url)
+    rmq.wrap(rmq.app.window).tap do |o|
+      o.append(UIView, :overlay).animations.fade_in.on(:tap) do |sender|
+        o.find(sender, :overlay_image, :overlay_tips).hide.remove
+      end
+      o.append(UIImageView, :overlay_image).get.url = image_url
+      o.append(UILabel, :overlay_tips)
+    end
   end
 
 end
