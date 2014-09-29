@@ -25,18 +25,24 @@ class MainController < UIViewController
   def search_for_images(query)
     if query && !query.strip.empty?
       query = query.gsub(/\s/,'%20')
-      url = "http://image.baidu.com/?word=#{query}"
+      url = "https://secure.flickr.com/search/?q=#{query}&s=int"
       rmq.animations.start_spinner
       AFMotion::HTTP.get(url) do |result|
         if html = result.body
           images = html.scan(/src=\"(.+?\.jpg)\"/).map do |m|
             m.first
           end
+          open_images_controller(images) if images.length > 0
         end
-        puts images
         rmq.animations.stop_spinner
       end
     end
   end
 
+  def open_images_controller(images)
+    controller = ImagesController.new
+    controller.images = images
+    controller.query = @query.text
+    self.navigationController.pushViewController(controller, animated:true)
+  end
 end

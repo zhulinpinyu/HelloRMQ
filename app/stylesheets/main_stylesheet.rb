@@ -14,7 +14,7 @@ class MainStylesheet < ApplicationStylesheet
     st.text_alignment = :center
     st.color = color.black
     st.font = font.medium
-    st.text = '百度图片'
+    st.text = 'Flickr'
   end
 
   def query(st)
