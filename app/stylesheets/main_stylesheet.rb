@@ -12,9 +12,9 @@ class MainStylesheet < ApplicationStylesheet
   def search_label(st)
     st.frame = {left: 10, top: 80, width: app_width-20, height: 40, centered: :horizontal}
     st.text_alignment = :center
-    st.color = color.battleship_gray
+    st.color = color.black
     st.font = font.medium
-    st.text = 'Find'
+    st.text = '百度图片'
   end
 
   def query(st)
